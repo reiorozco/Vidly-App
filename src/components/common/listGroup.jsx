@@ -14,6 +14,7 @@ function ListGroup({
     <Box
       sx={{
         width: "100%",
+        marginLeft: 2,
         maxWidth: 360,
         bgcolor: "background.paper",
       }}

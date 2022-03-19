@@ -1,6 +1,5 @@
 import React from "react";
-import { Paper, TableContainer } from "@mui/material";
-import TableMUI from "@mui/material/Table";
+import { Paper, TableContainer, Table as TableMUI } from "@mui/material";
 
 import TableHeader from "./tableHeader";
 import TableBody from "./tableBody";

@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import PaginationMUI from "@mui/material/Pagination";
+import { Pagination as PaginationMUI } from "@mui/material";
 
 function Pagination({ itemsCount, pageSize, currentPage, onPageChange }) {
   const pagesCount = Math.ceil(itemsCount / pageSize);

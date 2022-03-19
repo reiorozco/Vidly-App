@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { Button } from "@mui/material";
+import { Link as RouterLink } from "react-router-dom";
+import { Button, Link } from "@mui/material";
 import PropTypes from "prop-types";
 
 import Like from "./common/like";
@@ -7,7 +8,20 @@ import Table from "./common/table";
 
 class MoviesTable extends Component {
   columns = [
-    { path: "title", label: "Title" },
+    {
+      path: "title",
+      label: "Title",
+      content: (movie) => (
+        <Link
+          // color={"inherit"}
+          underline={"hover"}
+          component={RouterLink}
+          to={`/movies/${movie._id}`}
+        >
+          {movie.title}
+        </Link>
+      ),
+    },
     { path: "genre.name", label: "Genre" },
     { path: "numberInStock", label: "Stock" },
     { path: "dailyRentalRate", label: "Rate" },

@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import { TableCell, TableRow } from "@mui/material";
-import TableBodyMUI from "@mui/material/TableBody";
+import { TableBody as TableBodyMUI, TableCell, TableRow } from "@mui/material";
 import PropTypes from "prop-types";
 import _ from "lodash";
 
