@@ -26,6 +26,7 @@ function Navbar() {
     { name: "Customers", path: "/customers" },
     { name: "Rentals", path: "/rentals" },
     { name: "Login", path: "/login" },
+    { name: "Register", path: "/register" },
   ];
   const settings = ["Profile", "Account", "Dashboard", "Logout"];
 

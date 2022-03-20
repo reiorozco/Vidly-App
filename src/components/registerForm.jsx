@@ -12,15 +12,16 @@ import {
 } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { LockOutlined } from "@mui/icons-material";
+import { Link as RouterLink } from "react-router-dom";
 import Joi from "joi";
 
 import Copyright from "./common/copyright";
 import Form from "./common/form";
-import { Link as RouterLink } from "react-router-dom";
 
-class LoginForm extends Form {
+class RegisterForm extends Form {
   state = {
     data: {
+      name: "",
       email: "",
       password: "",
     },
@@ -30,6 +31,8 @@ class LoginForm extends Form {
   theme = createTheme();
 
   schema = Joi.object({
+    name: Joi.string().min(3).max(30).label("Name").required(),
+
     email: Joi.string()
       .email({
         minDomainSegments: 2,
@@ -49,6 +52,7 @@ class LoginForm extends Form {
     const data = new FormData(event.currentTarget);
     // Call the server ...
     console.log({
+      name: data.get("name"),
       email: data.get("email"),
       password: data.get("password"),
     });
@@ -73,52 +77,63 @@ class LoginForm extends Form {
             </Avatar>
 
             <Typography component="h1" variant="h5">
-              Login
+              Register
             </Typography>
 
             <Box
               component="form"
-              onSubmit={this.handleSubmit}
               noValidate
-              sx={{ mt: 1 }}
+              onSubmit={this.handleSubmit}
+              sx={{ mt: 3 }}
             >
-              {this.renderInput("email", "Email Address", "email", {
-                autoComplete: "email",
-                autoFocus: true,
-              })}
+              <Grid item xs={12}>
+                {this.renderInput("name", "Name", "text", {
+                  id: "firstName",
+                  autoComplete: "given-name",
+                  autoFocus: true,
+                })}
+              </Grid>
 
-              {this.renderInput("password", "Password", "password", {
-                autoComplete: "current-password",
-              })}
+              <Grid item xs={12}>
+                {this.renderInput("email", "Email Address", "email", {
+                  id: "email",
+                  autoComplete: "email",
+                })}
+              </Grid>
 
-              <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
-              />
+              <Grid item xs={12}>
+                {this.renderInput("password", "Password", "password", {
+                  id: "password",
+                  autoComplete: "new-password",
+                })}
+              </Grid>
 
-              {this.renderButton("Login")}
+              <Grid item xs={12}>
+                <FormControlLabel
+                  control={
+                    <Checkbox value="allowExtraEmails" color="primary" />
+                  }
+                  label="I want to receive promotions and updates via email."
+                />
+              </Grid>
 
-              <Grid container>
-                <Grid item xs textAlign={"initial"}>
-                  <Link href="#" variant="body2">
-                    Forgot password?
-                  </Link>
-                </Grid>
+              {this.renderButton("Register")}
 
+              <Grid container justifyContent="flex-end">
                 <Grid item color={"primary"}>
-                  <Link variant="body2" component={RouterLink} to={"/register"}>
-                    {"Don't have an account? Register"}
+                  <Link variant="body2" component={RouterLink} to={"/login"}>
+                    Already have an account? Login
                   </Link>
                 </Grid>
               </Grid>
             </Box>
           </Box>
 
-          <Copyright sx={{ mt: 8, mb: 4 }} />
+          <Copyright sx={{ mt: 5 }} />
         </Container>
       </ThemeProvider>
     );
   }
 }
 
-export default LoginForm;
+export default RegisterForm;

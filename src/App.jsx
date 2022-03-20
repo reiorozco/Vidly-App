@@ -10,6 +10,7 @@ import NotFound from "./components/notFound";
 import Navbar from "./components/Navbar";
 import MovieForm from "./components/movieForm";
 import LoginForm from "./components/loginForm";
+import RegisterForm from "./components/registerForm";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
       <Routes>
         <Route index element={<Navigate to={"/movies"} />} />
         <Route path={"login"} element={<LoginForm />} />
+        <Route path={"register"} element={<RegisterForm />} />
         <Route path={"movies"} element={<Movies />} />
         <Route path={"movies/:id"} element={<MovieForm />} />
         <Route path={"customers"} element={<Customers />} />
