@@ -1,8 +1,7 @@
-import React, { Component } from "react";
+import React from "react";
 import {
   Avatar,
   Box,
-  Button,
   Checkbox,
   Container,
   createTheme,
@@ -17,16 +16,18 @@ import { LockOutlined } from "@mui/icons-material";
 import Joi from "joi";
 
 import Copyright from "./common/copyright";
-import Input from "./common/input";
+import Form from "./common/form";
 
-class LoginForm extends Component {
+class LoginForm extends Form {
   state = {
-    account: {
+    data: {
       email: "",
       password: "",
     },
     errors: {},
   };
+
+  theme = createTheme();
 
   schema = Joi.object({
     email: Joi.string()
@@ -35,40 +36,14 @@ class LoginForm extends Component {
         tlds: { allow: ["com", "net"] },
       })
       .label("Email"),
+
     password: Joi.string()
+      .label("Password")
       .pattern(new RegExp("^[a-zA-Z0-9]{3,30}$"))
-      .label("Password"),
+      .message('"Password" length must be between 3 and 30 characters long'),
   });
 
-  theme = createTheme();
-
-  validate = () => {
-    const { account } = this.state;
-
-    const options = { abortEarly: false };
-    const { error } = this.schema.validate(account, options);
-    if (!error) return null;
-
-    const errors = {};
-    error.details.map((item) => (errors[item.path[0]] = item.message));
-    return errors;
-  };
-
-  validateProperty = ({ name, value }) => {
-    const obj = { [name]: value };
-    const schema = Joi.object({ [name]: this.schema.extract(name) });
-    const { error } = schema.validate(obj);
-
-    return error ? error.details[0].message : null;
-  };
-
-  handleSubmit = (event) => {
-    event.preventDefault();
-
-    const errors = this.validate();
-    this.setState({ errors: errors || {} });
-    if (errors) return;
-
+  doSubmit = (event) => {
     const data = new FormData(event.currentTarget);
     // Call the server ...
     console.log({
@@ -77,22 +52,7 @@ class LoginForm extends Component {
     });
   };
 
-  handleChange = ({ currentTarget: input }) => {
-    const errors = { ...this.state.errors };
-    const errorMessage = this.validateProperty(input);
-    errorMessage
-      ? (errors[input.name] = errorMessage)
-      : delete errors[input.name];
-
-    const account = { ...this.state.account };
-    account[input.name] = input.value;
-
-    this.setState({ account, errors });
-  };
-
   render() {
-    const { account, errors } = this.state;
-
     return (
       <ThemeProvider theme={this.theme}>
         <Container component="main" maxWidth="xs">
@@ -120,41 +80,21 @@ class LoginForm extends Component {
               noValidate
               sx={{ mt: 1 }}
             >
-              <Input
-                name={"email"}
-                label={"Email Address"}
-                value={account.email}
-                onChange={this.handleChange}
-                autoComplete={"email"}
-                error={errors.email}
-                type="email"
-                autoFocus
-              />
+              {this.renderInput("email", "Email Address", "email", {
+                autoComplete: "email",
+                autoFocus: true,
+              })}
 
-              <Input
-                name={"password"}
-                label={"Password"}
-                value={account.password}
-                onChange={this.handleChange}
-                error={errors.password}
-                autoComplete={"current-password"}
-                type="password"
-              />
+              {this.renderInput("password", "Password", "password", {
+                autoComplete: "current-password",
+              })}
 
               <FormControlLabel
                 control={<Checkbox value="remember" color="primary" />}
                 label="Remember me"
               />
 
-              <Button
-                type="submit"
-                disabled={this.validate() !== null}
-                fullWidth
-                variant="contained"
-                sx={{ mt: 3, mb: 2 }}
-              >
-                Sign In
-              </Button>
+              {this.renderButton("Sign In")}
 
               <Grid container>
                 <Grid item xs textAlign={"initial"}>

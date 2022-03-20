@@ -2,33 +2,11 @@ import React from "react";
 import { TextField } from "@mui/material";
 import PropTypes from "prop-types";
 
-function Input(props) {
-  const { error, onChange, label, name, value } = props;
-
+function Input({ error, ...rest }) {
   return error ? (
-    <TextField
-      error
-      id={name}
-      value={value}
-      name={name}
-      label={label}
-      onChange={onChange}
-      helperText={error}
-      margin="normal"
-      fullWidth
-    />
+    <TextField error helperText={error} margin="normal" fullWidth {...rest} />
   ) : (
-    <TextField
-      id={name}
-      value={value}
-      name={name}
-      label={label}
-      onChange={onChange}
-      margin="normal"
-      required
-      fullWidth
-      {...props}
-    />
+    <TextField margin="normal" required fullWidth {...rest} />
   );
 }
 
