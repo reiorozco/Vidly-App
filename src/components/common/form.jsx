@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Joi from "joi";
 import { Button } from "@mui/material";
 import Input from "./input";
+import Select from "./select";
 
 class Form extends Component {
   state = {
@@ -77,6 +78,22 @@ class Form extends Component {
         onChange={this.handleChange}
         error={errors[name]}
         type={type}
+        {...options}
+      />
+    );
+  }
+
+  renderSelect(name, label, seleOptions, options = {}) {
+    const { data, errors } = this.state;
+
+    return (
+      <Select
+        name={name}
+        value={data[name]}
+        label={label}
+        seleOptions={seleOptions}
+        onChange={this.handleChange}
+        error={errors[name]}
         {...options}
       />
     );

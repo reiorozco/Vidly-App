@@ -13,7 +13,6 @@ class MoviesTable extends Component {
       label: "Title",
       content: (movie) => (
         <Link
-          // color={"inherit"}
           underline={"hover"}
           component={RouterLink}
           to={`/movies/${movie._id}`}

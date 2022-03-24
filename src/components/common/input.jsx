@@ -3,10 +3,14 @@ import { TextField } from "@mui/material";
 import PropTypes from "prop-types";
 
 function Input({ error, ...rest }) {
-  return error ? (
-    <TextField error helperText={error} margin="normal" fullWidth {...rest} />
-  ) : (
-    <TextField margin="normal" required fullWidth {...rest} />
+  return (
+    <TextField
+      error={!!error}
+      helperText={error}
+      margin="normal"
+      fullWidth
+      {...rest}
+    />
   );
 }
 

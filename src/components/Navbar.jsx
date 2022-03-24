@@ -93,46 +93,48 @@ function Navbar() {
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page.path} onClick={handleCloseNavMenu}>
-                  <Link
-                    color={"inherit"}
-                    underline={"none"}
-                    component={RouterLink}
-                    to={page.path}
-                    textAlign={"center"}
-                  >
-                    {page.name}
-                  </Link>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>
-
-          <Typography
-            variant="h5"
-            noWrap
-            component="div"
-            sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}
-          >
-            Vidly
-          </Typography>
-
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            {pages.map((page) => (
-              <Button
-                key={page.path}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: "white", display: "block" }}
-              >
                 <Link
+                  key={page.path}
                   color={"inherit"}
                   underline={"none"}
                   component={RouterLink}
                   to={page.path}
+                  textAlign={"center"}
+                >
+                  <MenuItem onClick={handleCloseNavMenu}>{page.name}</MenuItem>
+                </Link>
+              ))}
+            </Menu>
+          </Box>
+
+          <Link
+            variant="h5"
+            noWrap
+            color={"inherit"}
+            underline={"none"}
+            component={RouterLink}
+            to={"/"}
+            sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}
+          >
+            Vidly
+          </Link>
+
+          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+            {pages.map((page) => (
+              <Link
+                key={page.path}
+                color={"inherit"}
+                underline={"none"}
+                component={RouterLink}
+                to={page.path}
+              >
+                <Button
+                  onClick={handleCloseNavMenu}
+                  sx={{ my: 2, color: "white", display: "block" }}
                 >
                   {page.name}
-                </Link>
-              </Button>
+                </Button>
+              </Link>
             ))}
           </Box>
 

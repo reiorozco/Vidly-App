@@ -1,6 +1,16 @@
 import React, { Component } from "react";
 
-import { Box, Grid, Typography } from "@mui/material";
+import {
+  Autocomplete,
+  Box,
+  Button,
+  Grid,
+  Link,
+  Stack,
+  TextField,
+  Typography,
+} from "@mui/material";
+import { Link as RouterLink } from "react-router-dom";
 import _ from "lodash";
 
 import Pagination from "./common/pagination";
@@ -76,8 +86,14 @@ class Movies extends Component {
   };
 
   render() {
-    const { pageSize, currentPage, genres, selectedGenre, sortColumn } =
-      this.state;
+    const {
+      pageSize,
+      currentPage,
+      genres,
+      selectedGenre,
+      sortColumn,
+      movies: allMovies,
+    } = this.state;
 
     const { data: movies, totalCount } = this.getPageData();
 
@@ -98,9 +114,32 @@ class Movies extends Component {
           </Grid>
 
           <Grid item xs={10}>
+            <Link
+              color={"inherit"}
+              underline={"none"}
+              component={RouterLink}
+              to={"/movies/new"}
+            >
+              <Button sx={{ marginBottom: 2 }} variant="contained">
+                New Movie
+              </Button>
+            </Link>
+
             <Typography textAlign={"initial"} mb={2}>
               {infoText}
             </Typography>
+
+            <Stack spacing={2} sx={{ width: 300 }}>
+              <Autocomplete
+                sx={{ marginBottom: 2 }}
+                id="search-movie"
+                freeSolo
+                options={allMovies.map((option) => option.title)}
+                renderInput={(params) => (
+                  <TextField {...params} label="Search..." />
+                )}
+              />
+            </Stack>
 
             <MoviesTable
               movies={movies}
