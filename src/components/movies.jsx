@@ -1,15 +1,6 @@
 import React, { Component } from "react";
 
-import {
-  Autocomplete,
-  Box,
-  Button,
-  Grid,
-  Link,
-  Stack,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Box, Button, Grid, Link, Typography } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 import _ from "lodash";
 
@@ -19,6 +10,7 @@ import MoviesTable from "./moviesTable";
 import { getMovies } from "../services/fakeMovieService";
 import { paginate } from "../utils/paginate";
 import { getGenres } from "../services/fakeGenreService";
+import SearchBox from "./searchBox";
 
 class Movies extends Component {
   state = {
@@ -26,6 +18,8 @@ class Movies extends Component {
     genres: [],
     pageSize: 4,
     currentPage: 1,
+    searchQuery: "",
+    selectedGenre: null,
     sortColumn: { path: "title", order: "asc" },
   };
 
@@ -56,7 +50,11 @@ class Movies extends Component {
   };
 
   handleGenreSelect = (genre) => {
-    this.setState({ selectedGenre: genre, currentPage: 1 });
+    this.setState({ selectedGenre: genre, searchQuery: "", currentPage: 1 });
+  };
+
+  handleSearch = (query) => {
+    this.setState({ searchQuery: query, selectedGenre: null, currentPage: 1 });
   };
 
   handleSort = (sortColumn) => {
@@ -67,15 +65,19 @@ class Movies extends Component {
     const {
       pageSize,
       currentPage,
-      movies: allMovies,
       selectedGenre,
       sortColumn,
+      searchQuery,
+      movies: allMovies,
     } = this.state;
 
-    const filtered =
-      selectedGenre && selectedGenre._id
-        ? allMovies.filter((m) => m.genre._id === selectedGenre._id)
-        : allMovies;
+    const filtered = searchQuery
+      ? allMovies.filter((m) =>
+          m.title.toLowerCase().startsWith(searchQuery.toLowerCase())
+        )
+      : selectedGenre && selectedGenre._id
+      ? allMovies.filter((m) => m.genre._id === selectedGenre._id)
+      : allMovies;
     const { length: count } = filtered;
 
     const sorted = _.orderBy(filtered, [sortColumn.path], [sortColumn.order]);
@@ -92,6 +94,7 @@ class Movies extends Component {
       genres,
       selectedGenre,
       sortColumn,
+      searchQuery,
       movies: allMovies,
     } = this.state;
 
@@ -129,17 +132,11 @@ class Movies extends Component {
               {infoText}
             </Typography>
 
-            <Stack spacing={2} sx={{ width: 300 }}>
-              <Autocomplete
-                sx={{ marginBottom: 2 }}
-                id="search-movie"
-                freeSolo
-                options={allMovies.map((option) => option.title)}
-                renderInput={(params) => (
-                  <TextField {...params} label="Search..." />
-                )}
-              />
-            </Stack>
+            <SearchBox
+              value={searchQuery}
+              options={allMovies}
+              onChange={this.handleSearch}
+            />
 
             <MoviesTable
               movies={movies}

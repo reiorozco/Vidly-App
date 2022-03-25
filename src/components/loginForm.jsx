@@ -41,7 +41,7 @@ class LoginForm extends Form {
     password: Joi.string()
       .label("Password")
       .pattern(new RegExp("^[a-zA-Z0-9]{3,30}$"))
-      .message('"Password" length must be between 3 and 30 characters long')
+      .message('“Password” length must be between 3 and 30 characters long')
       .required(),
   });
 
