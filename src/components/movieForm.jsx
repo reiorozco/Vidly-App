@@ -13,8 +13,8 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { AddCircle } from "@mui/icons-material";
 import { Navigate } from "react-router-dom";
 
-import { getGenres } from "../services/fakeGenreService";
-import { getMovie, saveMovie } from "../services/fakeMovieService";
+import { getGenres } from "../services/genreService";
+import { getMovie, saveMovie } from "../services/movieService";
 import withRouter from "../utils/withRouter";
 import Copyright from "./common/copyright";
 import Form from "./common/form";
@@ -42,24 +42,29 @@ class MovieForm extends Form {
     dailyRentalRate: Joi.number().min(0).max(10).label("Daily Rental Rate"),
   });
 
-  componentDidMount() {
-    const { id: movieId } = this.props.router.params;
-    // const { navigate } = this.props.router;
-
-    const genres = getGenres();
+  async populateGenres() {
+    const { data: genres } = await getGenres();
     this.setState({ genres });
+  }
 
-    console.log(movieId);
-    if (movieId === "new") return;
+  async populateMovie() {
+    try {
+      const { id: movieId } = this.props.router.params;
+      console.log(movieId);
+      if (movieId === "new") return;
 
-    const movie = getMovie(movieId);
-    console.log(movie);
-    if (!movie) return this.setState({ redirect: true });
-    // return setTimeout(() => {
-    //   navigate("/not-found", { replace: true });
-    // }, 0);
+      const { data: movie } = await getMovie(movieId);
+      console.log(movie);
+      this.setState({ data: this.mapToViewModel(movie[0]) });
+    } catch (ex) {
+      if (ex.response && ex.response.status === 404)
+        this.setState({ redirect: true });
+    }
+  }
 
-    this.setState({ data: this.mapToViewModel(movie) });
+  async componentDidMount() {
+    await this.populateGenres();
+    await this.populateMovie();
   }
 
   mapToViewModel(movie) {
@@ -72,10 +77,10 @@ class MovieForm extends Form {
     };
   }
 
-  doSubmit = () => {
+  doSubmit = async () => {
     const { navigate } = this.props.router;
 
-    saveMovie(this.state.data);
+    await saveMovie(this.state.data);
 
     navigate("/movies");
   };
