@@ -11,24 +11,21 @@ import {
   MenuItem,
   Toolbar,
   Tooltip,
-  Typography,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Link as RouterLink } from "react-router-dom";
+import PropTypes from "prop-types";
+import MenuLoginNavbar from "./menuLoginNavbar";
 
-function Navbar() {
+function Navbar({ user }) {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
-  // const pages = ["Movies", "Customers", "Rentals"];
   const pages = [
     { name: "Movies", path: "/movies" },
     { name: "Customers", path: "/customers" },
     { name: "Rentals", path: "/rentals" },
-    { name: "Login", path: "/login" },
-    { name: "Register", path: "/register" },
   ];
-  const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -145,33 +142,20 @@ function Navbar() {
               </IconButton>
             </Tooltip>
 
-            <Menu
-              sx={{ mt: "45px" }}
-              id="menu-appbar"
+            <MenuLoginNavbar
               anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
+              handleClose={handleCloseUserMenu}
+              user={user}
+            />
           </Box>
         </Toolbar>
       </Container>
     </AppBar>
   );
 }
+
+Navbar.propTypes = {
+  user: PropTypes.object,
+};
 
 export default Navbar;

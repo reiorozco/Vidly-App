@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 
 import Like from "./common/like";
 import Table from "./common/table";
+import auth from "../services/authService";
 
 class MoviesTable extends Component {
   columns = [
@@ -30,19 +31,26 @@ class MoviesTable extends Component {
         <Like liked={movie.liked} onClick={() => this.props.onLike(movie)} />
       ),
     },
-    {
-      key: "delete",
-      content: (movie) => (
-        <Button
-          variant="outlined"
-          color={"error"}
-          onClick={() => this.props.onDelete(movie)}
-        >
-          Delete
-        </Button>
-      ),
-    },
   ];
+
+  deleteColumn = {
+    key: "delete",
+    content: (movie) => (
+      <Button
+        variant="outlined"
+        color={"error"}
+        onClick={() => this.props.onDelete(movie)}
+      >
+        Delete
+      </Button>
+    ),
+  };
+
+  constructor(props) {
+    super(props);
+    const user = auth.getCurrentUser();
+    if (user && user.isAdmin) this.columns.push(this.deleteColumn);
+  }
 
   render() {
     let { movies, onSort, sortColumn } = this.props;

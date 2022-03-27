@@ -17,6 +17,8 @@ import Joi from "joi";
 
 import Copyright from "./common/copyright";
 import Form from "./common/form";
+import * as userService from "../services/userService";
+import auth from "../services/authService";
 
 class RegisterForm extends Form {
   state = {
@@ -44,18 +46,23 @@ class RegisterForm extends Form {
     password: Joi.string()
       .label("Password")
       .pattern(new RegExp("^[a-zA-Z0-9]{3,30}$"))
-      .message('“Password” length must be between 3 and 30 characters long')
+      .message("“Password” length must be between 3 and 30 characters long")
       .required(),
   });
 
-  doSubmit = (event) => {
-    const data = new FormData(event.currentTarget);
-    // Call the server ...
-    console.log({
-      name: data.get("name"),
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+  doSubmit = async () => {
+    try {
+      const response = await userService.register(this.state.data);
+      auth.loginWithJwt(response.headers["x-auth-token"]);
+
+      window.location = "/";
+    } catch (ex) {
+      if (ex.response && ex.response.status === 400) {
+        const errors = { ...this.state.errors };
+        errors.email = ex.response.data;
+        this.setState({ errors });
+      }
+    }
   };
 
   render() {

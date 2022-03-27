@@ -12,6 +12,7 @@ import Pagination from "./common/pagination";
 import ListGroup from "./common/listGroup";
 import MoviesTable from "./moviesTable";
 import SearchBox from "./searchBox";
+import PropTypes from "prop-types";
 
 class Movies extends Component {
   state = {
@@ -113,6 +114,8 @@ class Movies extends Component {
       movies: allMovies,
     } = this.state;
 
+    const { user } = this.props;
+
     const { data: movies, totalCount } = this.getPageData();
 
     const infoText =
@@ -132,16 +135,18 @@ class Movies extends Component {
           </Grid>
 
           <Grid item xs={10}>
-            <Link
-              color={"inherit"}
-              underline={"none"}
-              component={RouterLink}
-              to={"/movies/new"}
-            >
-              <Button sx={{ marginBottom: 2 }} variant="contained">
-                New Movie
-              </Button>
-            </Link>
+            {user && (
+              <Link
+                color={"inherit"}
+                underline={"none"}
+                component={RouterLink}
+                to={"/movies/new"}
+              >
+                <Button sx={{ marginBottom: 2 }} variant="contained">
+                  New Movie
+                </Button>
+              </Link>
+            )}
 
             <Typography textAlign={"initial"} mb={2}>
               {infoText}
@@ -173,5 +178,9 @@ class Movies extends Component {
     );
   }
 }
+
+Movies.propTypes = {
+  user: PropTypes.object,
+};
 
 export default Movies;

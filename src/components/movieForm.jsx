@@ -82,7 +82,7 @@ class MovieForm extends Form {
 
     await saveMovie(this.state.data);
 
-    navigate("/movies");
+    navigate("/");
   };
 
   render() {

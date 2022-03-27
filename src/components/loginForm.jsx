@@ -12,11 +12,13 @@ import {
 } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { LockOutlined } from "@mui/icons-material";
+import { Link as RouterLink, Navigate } from "react-router-dom";
 import Joi from "joi";
 
+import auth from "../services/authService";
 import Copyright from "./common/copyright";
 import Form from "./common/form";
-import { Link as RouterLink } from "react-router-dom";
+import withRouter from "../utils/withRouter";
 
 class LoginForm extends Form {
   state = {
@@ -41,20 +43,29 @@ class LoginForm extends Form {
     password: Joi.string()
       .label("Password")
       .pattern(new RegExp("^[a-zA-Z0-9]{3,30}$"))
-      .message('“Password” length must be between 3 and 30 characters long')
+      .message("“Password” length must be between 3 and 30 characters long")
       .required(),
   });
 
-  doSubmit = (event) => {
-    const data = new FormData(event.currentTarget);
-    // Call the server ...
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+  doSubmit = async () => {
+    try {
+      const { data } = this.state;
+      await auth.login(data.email, data.password);
+
+      const { state } = this.props.router.location;
+      window.location = state ? state.from.pathname : "/";
+    } catch (ex) {
+      if (ex.response && ex.response.status === 400) {
+        const errors = { ...this.state.errors };
+        errors.email = ex.response.data;
+        this.setState({ errors });
+      }
+    }
   };
 
   render() {
+    if (auth.getCurrentUser()) return <Navigate to={"/"} />;
+
     return (
       <ThemeProvider theme={this.theme}>
         <Container component="main" maxWidth="xs">
@@ -121,4 +132,4 @@ class LoginForm extends Form {
   }
 }
 
-export default LoginForm;
+export default withRouter(LoginForm);
