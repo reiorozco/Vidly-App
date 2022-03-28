@@ -1,9 +1,3 @@
 {
-  "rewrites": [
-    {
-      "source": "/api/:match*",
-      "destination": "https://vidly-reiorozco.herokuapp.com/api/:match*"
-    },
-    { "source": "/(.*)", "destination": "/" }
-  ]
+  "rewrites": [{ "source": "/(.*)", "destination": "/" }]
 }
