@@ -1,11 +1,6 @@
 {
   "root": "./dist",
   "clean_urls": true,
-  "proxies": {
-    "/api/:match**": {
-      "origin": "https://vidly-reiorozco.herokuapp.com/:match*"
-    }
-  },
   "redirects": {
     "/api/:match**": {
       "url": "https://vidly-reiorozco.herokuapp.com/:match**"
