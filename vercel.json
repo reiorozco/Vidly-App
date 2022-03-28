@@ -18,8 +18,9 @@
   ],
   "rewrites": [
     {
-      "source": "/api",
+      "source": "/api/(.*)",
       "destination": "https://vidly-reiorozco.herokuapp.com"
-    }
+    },
+    { "source": "/(.*)", "destination": "/" }
   ]
 }
