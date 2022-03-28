@@ -18,8 +18,8 @@
   ],
   "rewrites": [
     {
-      "source": "/api/(.*)",
-      "destination": "https://vidly-reiorozco.herokuapp.com"
+      "source": "/:api/(.*)",
+      "destination": "https://vidly-reiorozco.herokuapp.com/:api/(.*)"
     },
     { "source": "/(.*)", "destination": "/" }
   ]
