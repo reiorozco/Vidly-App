@@ -1,13 +1,13 @@
 {
   "root": "./dist",
   "clean_urls": true,
-  "routes": {
-    "/**": "index.html"
-  },
   "proxies": {
-    "/api": {
+    "/api/": {
       "origin": "https://vidly-reiorozco.herokuapp.com"
     }
+  },
+  "routes": {
+    "/**": "index.html"
   },
   "headers": {
     "/**": {
