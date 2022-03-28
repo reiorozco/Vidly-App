@@ -3,9 +3,9 @@ import { toast } from "react-toastify";
 
 import logger from "./logService";
 
-// if (import.meta.env.PROD) {
-//   axios.defaults.baseURL = "https://vidly-reiorozco.herokuapp.com";
-// }
+if (import.meta.env.PROD) {
+  axios.defaults.baseURL = "https://vidly-reiorozco.herokuapp.com";
+}
 
 axios.interceptors.response.use(null, (error) => {
   const expectedError =
