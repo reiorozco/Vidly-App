@@ -5,8 +5,8 @@
     "/**": "index.html"
   },
   "proxies": {
-    "/api/": {
-      "origin": "https://vidly-reiorozco.herokuapp.com/"
+    "/api": {
+      "origin": "https://vidly-reiorozco.herokuapp.com"
     }
   },
   "headers": {
