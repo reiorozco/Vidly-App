@@ -2,8 +2,8 @@
   "root": "./dist",
   "clean_urls": true,
   "redirects": {
-    "/api/:match**": {
-      "url": "https://vidly-reiorozco.herokuapp.com/:match**"
+    "/api/**": {
+      "url": "https://vidly-reiorozco.herokuapp.com"
     }
   },
   "routes": {
