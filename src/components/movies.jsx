@@ -1,6 +1,13 @@
 import React, { Component } from "react";
 
-import { Box, Button, Grid, Link, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  CircularProgress,
+  Grid,
+  Link,
+  Typography,
+} from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 import { toast } from "react-toastify";
 import _ from "lodash";
@@ -125,7 +132,12 @@ class Movies extends Component {
 
     return (
       <Box sx={{ flexGrow: 1 }}>
-        <Grid container spacing={2}>
+        <Grid
+          container
+          spacing={{ md: 2 }}
+          direction={{ xs: "column", sm: "column", md: "row" }}
+          alignItems={{ xs: "center", sm: "center", md: "initial" }}
+        >
           <Grid item xs={2}>
             <ListGroup
               items={genres}
@@ -134,7 +146,17 @@ class Movies extends Component {
             />
           </Grid>
 
-          <Grid item xs={10}>
+          <Grid
+            item
+            xs={10}
+            container
+            direction={"column"}
+            alignItems={{ xs: "center", sm: "initial", md: "initial" }}
+            sx={{
+              overflowX: { xs: "auto", sm: "auto" },
+              paddingX: 2,
+            }}
+          >
             {user && (
               <Link
                 color={"inherit"}
@@ -165,6 +187,12 @@ class Movies extends Component {
               onLike={this.handleLike}
               onSort={this.handleSort}
             />
+
+            {allMovies.length === 0 && (
+              <Box sx={{ width: { md: "75%" } }}>
+                <CircularProgress size={80} />
+              </Box>
+            )}
 
             <Pagination
               itemsCount={totalCount}

@@ -7,8 +7,11 @@ import PropTypes from "prop-types";
 
 function Table({ columns, data, onSort, sortColumn }) {
   return (
-    <TableContainer sx={{ width: "75%", marginBottom: 2 }} component={Paper}>
-      <TableMUI sx={{ minWidth: 450 }} aria-label="simple table">
+    <TableContainer
+      sx={{ width: { md: "75%" }, marginBottom: 2 }}
+      component={Paper}
+    >
+      <TableMUI aria-label="simple table">
         <TableHeader
           columns={columns}
           sortColumn={sortColumn}

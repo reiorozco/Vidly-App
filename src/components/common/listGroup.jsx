@@ -19,7 +19,15 @@ function ListGroup({
         bgcolor: "background.paper",
       }}
     >
-      <List component="nav" aria-label="secondary mailbox folder">
+      <List
+        component="div"
+        aria-label="secondary mailbox folder"
+        sx={{
+          display: "flex",
+          flexDirection: { xs: "row", md: "column" },
+          flexWrap: { xs: "wrap", md: "wrap" },
+        }}
+      >
         {items.map((item) => {
           return (
             <ListItemButton
