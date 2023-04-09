@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-
+import PropTypes from "prop-types";
 import {
   Box,
   Button,
@@ -15,11 +15,11 @@ import _ from "lodash";
 import { getMovies, deleteMovies } from "../services/movieService";
 import { paginate } from "../utils/paginate";
 import { getGenres } from "../services/genreService";
+
+import MoviesTable from "./moviesTable";
 import Pagination from "./common/pagination";
 import ListGroup from "./common/listGroup";
-import MoviesTable from "./moviesTable";
 import SearchBox from "./searchBox";
-import PropTypes from "prop-types";
 
 class Movies extends Component {
   state = {
@@ -137,14 +137,18 @@ class Movies extends Component {
           spacing={{ md: 2 }}
           direction={{ xs: "column", sm: "column", md: "row" }}
           alignItems={{ xs: "center", sm: "center", md: "initial" }}
+          sx={{ minHeight: "265px", flexWrap: "nowrap" }}
+          gap={1}
         >
-          <Grid item xs={2}>
-            <ListGroup
-              items={genres}
-              selectedItem={selectedGenre}
-              onItemSelect={this.handleGenreSelect}
-            />
-          </Grid>
+          {genres && (
+            <Grid item xs={2}>
+              <ListGroup
+                items={genres}
+                selectedItem={selectedGenre}
+                onItemSelect={this.handleGenreSelect}
+              />
+            </Grid>
+          )}
 
           <Grid
             item
@@ -154,6 +158,7 @@ class Movies extends Component {
             alignItems={{ xs: "center", sm: "initial", md: "initial" }}
             sx={{
               overflowX: { xs: "auto", sm: "auto" },
+              minHeight: "inherit",
               paddingX: 2,
             }}
           >
@@ -190,7 +195,7 @@ class Movies extends Component {
 
             {allMovies.length === 0 && (
               <Box sx={{ width: { md: "75%" } }}>
-                <CircularProgress size={80} />
+                <CircularProgress size={50} />
               </Box>
             )}
 

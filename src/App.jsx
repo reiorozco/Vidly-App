@@ -2,19 +2,21 @@ import React, { useEffect, useState } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 
+import auth from "./services/authService";
+
 import Movies from "./components/movies";
-import LoginForm from "./components/loginForm";
 import RegisterForm from "./components/registerForm";
+import LoginForm from "./components/loginForm";
+import MovieForm from "./components/movieForm";
 import Customers from "./components/customers";
 import Rentals from "./components/rentals";
 import NotFound from "./components/notFound";
 import Navbar from "./components/Navbar";
 import Logout from "./components/logout";
-import MovieForm from "./components/movieForm";
-import auth from "./services/authService";
+import ProtectedRoute from "./components/common/protectedRoute";
+
 import "./App.css";
 import "react-toastify/dist/ReactToastify.css";
-import ProtectedRoute from "./components/common/protectedRoute";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -27,6 +29,7 @@ function App() {
   return (
     <div className="App">
       <ToastContainer />
+
       <Navbar user={user} />
 
       <Routes>

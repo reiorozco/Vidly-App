@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 
 import logger from "./logService";
 
-axios.defaults.baseURL = "https://vidly-reiorozco.herokuapp.com";
+axios.defaults.baseURL = "https://vidly-api.vercel.app";
 
 axios.interceptors.response.use(null, (error) => {
   const expectedError =
